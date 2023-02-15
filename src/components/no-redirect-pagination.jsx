@@ -1,0 +1,49 @@
+import { ArrowNarrowLeftIcon, ArrowNarrowRightIcon } from "./icons"
+
+const NoRedirectPagination = ({ links, from, to, current, total, update }) => {
+    if (links?.length > 3) {
+        return (
+            <div class="flex items-center justify-between w-full">
+                <div class="flex flex-wrap -mb-1">
+                    {links.map((row, index) => (
+                        <>
+                            {index === 0 ? (
+                                row.url === null ? (
+                                    <div class="px-4 py-2 mb-1 mr-1 text-sm leading-4 text-neutral-400 border rounded-xl"><ArrowNarrowLeftIcon className="w-6 h-6" /></div>
+                                ) : (
+                                    <button type="button" onClick={() => update(current - 1)} class={`${row.active ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'hover:bg-neutral-100'} px-4 py-2 mb-1 mr-1 text-sm leading-4 transition border rounded-xl focus:border-neutral-500 active:hover:scale-95`}><ArrowNarrowLeftIcon className="w-6 h-6" /></button>
+                                )
+                            ) : (index === links.length - 1 ? (
+                                row.url === null ? (
+                                    <div class="px-4 py-2 mb-1 mr-1 text-sm leading-4 text-neutral-400 border rounded-xl"><ArrowNarrowRightIcon className="w-6 h-6" /></div>
+                                ) : (
+                                    <button type="button" onClick={() => update(current + 1)} class={`${row.active ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'hover:bg-neutral-100'} px-4 py-2 mb-1 mr-1 text-sm leading-4 transition border rounded-xl focus:border-neutral-500 active:hover:scale-95`}><ArrowNarrowRightIcon className="w-6 h-6" /></button>
+                                )
+                            ) : (
+                                row.url === null ? (
+                                    <div class="px-4 py-3 mb-1 mr-1 text-sm leading-4 text-neutral-400 border rounded-xl">{row.label}</div>
+                                ) : (
+                                    <button type="button" onClick={() => update(parseInt(row.label))} class={`${row.active ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'hover:bg-neutral-100'} px-4 py-3 mb-1 mr-1 text-sm leading-4 transition border rounded-xl focus:border-neutral-500 active:hover:scale-95`}>{row.label}</button>
+                                )
+                            ))}
+                        </>
+                    ))}
+                </div>
+
+                <div>
+                    <p class="text-sm leading-5 text-neutral-700">
+                        Showing
+                        <span class="font-medium">{` ${from} `}</span>
+                        to
+                        <span class="font-medium">{` ${to} `}</span>
+                        of
+                        <span class="font-medium">{` ${total} `}</span>
+                        results
+                    </p>
+                </div>
+            </div>
+        )
+    }
+}
+
+export default NoRedirectPagination
