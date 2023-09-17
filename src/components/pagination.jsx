@@ -6,7 +6,7 @@ const Pagination = ({ links, from, to, total }) => {
 
     if (links?.length > 3) {
         return (
-            <div class="flex items-center justify-between w-full">
+            <div class="flex items-center justify-between w-full flex-wrap gap-4">
                 <div class="flex flex-wrap -mb-1">
                     {links.map((row, index) => (
                         <>

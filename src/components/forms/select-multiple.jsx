@@ -1,72 +1,75 @@
-import { ChevronUpDownIcon, XIcon } from "components/icons"
-import Select, { components } from "react-select"
+import { Fragment, useState } from 'react'
+import { Listbox, Transition } from '@headlessui/react'
+import { CheckIcon, ChevronUpDownIcon } from 'components/icons'
+import { useEffect } from 'react'
+import { lang } from 'config'
 
-const DropdownIndicator = (props) => {
-    return (
-        <components.DropdownIndicator {...props}>
-            <ChevronUpDownIcon className="w-5 h-5 text-neutral-400" />
-        </components.DropdownIndicator>
-    )
-}
+const SelectMultiple = ({ selection = [], isLoading, value, placeholder, title, description, onChange, error }) => {
+    const [selected, setSelected] = useState(value ?? [])
 
-const MultiValueRemove = (props) => {
-    return (
-        <components.MultiValueRemove {...props}>
-            <XIcon className="w-3 h-3" stroke={1.5} />
-        </components.MultiValueRemove>
-    )
-}
+    useEffect(() => {
+        onChange(selected)
+    }, [selected, value])
 
-const ClearIndicator = (props) => {
-    const {
-        children = <XIcon className="w-5 h-5 text-neutral-400" />,
-        getStyles,
-        innerProps: { ref, ...restInnerProps },
-    } = props
+    useEffect(() => {
+        if (value && selection.length !== 0 && !isLoading) {
+            setSelected(value)
+        }
+    }, [isLoading])
 
     return (
-        <div
-            {...restInnerProps}
-            ref={ref}
-            style={getStyles('clearIndicator', props)}
-        >
-            <div style={{ padding: '0px 5px' }}>{children}</div>
-        </div>
-    )
-}
-
-{/* <div className="px-4 py-2"></div> */ }
-
-const SelectMultiple = ({ optionLabel, optionValue, options, onChange, error, value }) => {
-    return (
-        <Select
-            defaultValue={value}
-            components={{
-                DropdownIndicator,
-                MultiValueRemove,
-                ClearIndicator
-            }}
-            styles={{
-                multiValue: (base) => ({
-                    ...base,
-                    borderRadius: '10rem',
-                    padding: '0 0.25rem'
-                }),
-                multiValueRemove: (provided) => ({
-                    ...provided,
-                    borderRadius: '10rem',
-                    margin: 'auto',
-                    padding: '.25rem',
-                    display: 'flex',
-                    justifyContent: 'center'
-                }),
-                clearIndicator: () => ({
-                    cursor: 'pointer'
-                }),
-                control: (provided, state) => ({
-                    borderColor: state.isFocused ? '#A3A3A3' : error ? '#FECACA' : '#E5E5E5'
-                })
-            }} classNamePrefix="select" onChange={onChange} isMulti getOptionLabel={optionLabel} getOptionValue={optionValue} options={options} className="mt-1 text-sm" />
+        <Listbox value={selected} onChange={setSelected} multiple>
+            <div className="relative mt-1">
+                <Listbox.Button className={`${error ? 'border-red-200' : 'border-neutral-200'} w-full px-4 py-2 text-sm text-left transition border focus:outline-none rounded-xl focus:border-neutral-400 focus:ring focus:ring-neutral-200`}>
+                    <span className={`block truncate`}>
+                        {isLoading ? lang.loading_data : selected[title] ?? placeholder}
+                    </span>
+                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                        <ChevronUpDownIcon
+                            className="w-5 h-5 text-neutral-400"
+                            aria-hidden="true"
+                        />
+                    </span>
+                </Listbox.Button>
+                <Transition
+                    as={Fragment}
+                    leave="transition ease-in duration-100"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                >
+                    <Listbox.Options className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white border rounded-xl max-h-60 border-neutral-200 focus:outline-none sm:text-sm">
+                        {selection?.map((row, index) => (
+                            <Listbox.Option
+                                key={index}
+                                className={({ active }) =>
+                                    `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-neutral-100 text-neutral-900' : 'text-neutral-900'
+                                    }`
+                                }
+                                value={row}
+                            >
+                                {({ selected }) => (
+                                    <>
+                                        <div>
+                                            <span className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}>
+                                                {row[title]}
+                                            </span>
+                                            <span className={`block truncate text-xs ${selected ? 'font-normal' : 'font-light'}`}>
+                                                {row[description]}
+                                            </span>
+                                        </div>
+                                        {selected ? (
+                                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-neutral-600">
+                                                <CheckIcon className="w-5 h-5" aria-hidden="true" />
+                                            </span>
+                                        ) : null}
+                                    </>
+                                )}
+                            </Listbox.Option>
+                        ))}
+                    </Listbox.Options>
+                </Transition>
+            </div>
+        </Listbox >
     )
 }
 

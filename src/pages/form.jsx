@@ -17,6 +17,7 @@ import Checkbox from "components/forms/checkbox"
 import InputAmount from "components/forms/input-amount"
 import Radio from "components/forms/radio"
 import SelectDescription from "components/forms/select-description"
+import SelectMultiple from "components/forms/select-multiple"
 
 const Form = ({ title }) => {
     const { cache } = useSWRConfig()
@@ -121,8 +122,14 @@ const Form = ({ title }) => {
                                                     </div>
 
                                                     <div className="col-span-6 sm:col-span-3">
+                                                        <Label htmlFor="branch" value="Branch" />
+                                                        <SelectDescription onChange={() => { }} isLoading={false} title="label" description="description" value={null} keyValue="id" selection={[{ id: 1, label: "Main", description: "Shimotsuma, Ibaraki, Japan" }, { id: 2, label: "Tokyo", description: "Shibuya City, Tokyo, Japan" }]} placeholder="Select Branch" error={errors.branch} />
+                                                        <ErrorMessage error={errors.branch} />
+                                                    </div>
+
+                                                    <div className="col-span-6 sm:col-span-3">
                                                         <Label htmlFor="user" value="User" />
-                                                        <SelectDescription onChange={() => {}} isLoading={false} title="name" description="phone" value={null} keyValue="id" selection={[{ id: 1, name: "Alice Evergarden", phone: "+62 851-7307-5151" }, { id: 2, name: "Alicia Endeavour", phone: "+62 895-1811-8820" }]} placeholder="Select User" error={errors.user} />
+                                                        <SelectMultiple onChange={() => { }} isLoading={false} title="name" description="phone" keyValue="id" selection={[{ id: 1, name: "Alice Evergarden", phone: "+62 851-7307-5151" }, { id: 2, name: "Alicia Endeavour", phone: "+62 895-1811-8820" }]} placeholder="Select User" error={errors.user} />
                                                         <ErrorMessage error={errors.user} />
                                                     </div>
 

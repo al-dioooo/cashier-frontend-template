@@ -37,7 +37,7 @@ const SelectDescription = ({ selection = [], isLoading, value, placeholder, keyV
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white border rounded-xl max-h-60 border-neutral-200 focus:outline-none sm:text-sm">
+                    <Listbox.Options className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white border rounded-xl max-h-60 border-neutral-200 focus:outline-none sm:text-sm">
                         {selection?.map((row, index) => (
                             <Listbox.Option
                                 key={index}

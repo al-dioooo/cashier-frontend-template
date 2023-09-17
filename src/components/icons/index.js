@@ -50,6 +50,7 @@ import EyeIcon from "./eye"
 import FileInfoIcon from "./file-info"
 import LoginIcon from "./login"
 import NotebookIcon from "./notebook"
+import MoodSmileIcon from "./mood-smile"
 
 export {
     DollarIcon,
@@ -103,5 +104,6 @@ export {
     EyeIcon,
     FileInfoIcon,
     LoginIcon,
-    NotebookIcon
+    NotebookIcon,
+    MoodSmileIcon
 }

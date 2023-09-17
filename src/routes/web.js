@@ -56,7 +56,7 @@ const routeList = [
                         <Dashboard title={lang.title.dashboard} />
                     </ProtectedRoute>
                 ),
-                loader: showDashboard
+                // loader: showDashboard
             },
             {
                 path: "form",
